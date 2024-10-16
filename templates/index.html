@@ -1,0 +1,24 @@
+{% extends "base/base.html" %}
+{% import 'base/macro.html' as macro %}
+
+{% block header %}
+<div class="container-fluid">
+    <header
+        class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+            Cisco Config UI
+        </a>
+
+        <div class="col-md-3 text-end">
+            <button class="btn btn-outline-primary me-2" onclick="openModal('modalSignin')">Вход</button>
+            <button class="btn btn-primary" onclick="openModal('modalSignup')">Регистрация</button>
+        </div>
+    </header>
+</div>
+{{ macro.modal('modalSignin', 'loginUser()', 'Войдите', 'Войти', {"loginEmail": "Email", "loginPassword": "Пароль"}) }}
+{{ macro.modal('modalSignup', 'registerUser()', 'Зарегистрируйтесь', 'Зарегистрироваться', {"email": "Email",
+"username": "Юзернейм", "putty_login": "Логин PUTTY", "putty_password": "Пароль PUTTY", "password": "Пароль"}) }}
+{% endblock %}
+{% block content %}
+<p class="text-center p-4 fw-medium">Добро пожаловать, авторизуйтесь либо зарегистрируйтесь</p>
+{% endblock %}

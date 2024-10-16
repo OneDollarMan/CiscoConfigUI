@@ -1,0 +1,8 @@
+fastapi
+pydantic
+sqlalchemy
+fastapi-users[sqlalchemy]
+uvicorn[standard]
+aiosqlite
+aiofiles
+jinja2

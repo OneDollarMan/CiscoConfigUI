@@ -1,0 +1,46 @@
+{% macro logged_header(username) %}
+<div class="container-fluid">
+  <header
+    class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+    <a href="/devices" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+      Cisco Config UI
+    </a>
+
+    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+      <li><a href="/devices" class="nav-link px-2">Список устройств</a></li>
+      <li><a href="/compare" class="nav-link px-2">Сравнение конфигов</a></li>
+    </ul>
+
+    <div class="col-md-3 text-end">
+      <span class="fw-medium">{{username}}</span>
+      <button class="btn btn-outline-primary me-2" onclick="logoutUser()">Выход</button>
+    </div>
+  </header>
+</div>
+{% endmacro %}
+
+{% macro modal(id, query_method, title, button_text, inputs) %}
+<div class="modal modal-signin position-absolute bg-secondary py-5" tabindex="-1" role="dialog" id="{{id}}">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header p-5 pb-4 border-bottom-0">
+        <h1 class="fw-bold mb-0 fs-2">{{title}}</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          onclick="closeModal('{{id}}')"></button>
+      </div>
+
+      <div class="modal-body p-5 pt-0">
+        {% for k, v in inputs.items() %}
+        <div class="form-floating mb-3">
+          <input type="{{'password' if k == 'loginPassword' else 'text'}}" class="form-control rounded-3" id="{{k}}"
+            placeholder="{{v}}">
+          <label for="{{k}}">{{v}}</label>
+        </div>
+        {% endfor %}
+        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit"
+          onclick="{{query_method}}">{{button_text}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endmacro %}

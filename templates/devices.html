@@ -1,0 +1,62 @@
+{% import 'base/macro.html' as macro %}
+{% extends "base/base.html" %}
+{% block header %}
+{{ macro.logged_header(username=user['email']) }}
+{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-start">
+    <div class="card me-3">
+        <div class="card-body">
+            <h5 class="card-title">Добавить устройство</h5>
+            <form onSubmit="addDevice(event)">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Название</label>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Название" required>
+                </div>
+                <div class="mb-3">
+                    <label for="ip_address" class="form-label">IP адрес</label>
+                    <input type="text" class="form-control" name="ip_address" id="ip_address" placeholder="IP адрес" required>
+                </div>
+                <div class="mb-3">
+                    <label for="config_file" class="form-label">Файл конфигурации</label>
+                    <input type="file" class="form-control" name="config_file" id="config_file" accept="text/plain" required>
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Добавить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="card p-2" style="width: 100%">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Название</th>
+                    <th scope="col">IP адрес</th>
+                    <th scope="col">Дата добавления</th>
+                    <th scope="col">Файл конфигурации</th>
+                    <th scope="col">Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for device in devices %}
+                <tr style="cursor: pointer" onClick="window.location='/devices/{{device.id}}'">
+                    <td>{{loop.index}}</td>
+                    <td>{{device.name}}</td>
+                    <td>{{device.ip_address}}</td>
+                    <td>{{device.created_at}}</td>
+                    <td>{{ 'Загружен' if device.config_file_path else 'Не загружен'}}</td>
+                    <td>
+                        <button class="btn btn-danger" onClick="deleteDevice(event, {{device.id}})">Удалить</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% endblock %}

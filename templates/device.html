@@ -1,0 +1,70 @@
+{% import 'base/macro.html' as macro %}
+{% extends "base/base.html" %}
+{% block header %}
+{{ macro.logged_header(username=user['email']) }}
+{% endblock %}
+
+{% block content %}
+<div class="d-flex">
+    <div class="card card-body me-2">
+        <h5>Информация об устройстве</h5>
+        <table class="table table-striped">
+            <tr>
+                <td>ID</td>
+                <td>{{device.id}}</td>
+            </tr>
+            <tr>
+                <td>Название</td>
+                <td>{{device.name}}</td>
+            </tr>
+            <tr>
+                <td>IP адрес</td>
+                <td>{{device.ip_address}}</td>
+            </tr>
+            <tr>
+                <td>Дата добавления</td>
+                <td>{{device.created_at}}</td>
+            </tr>
+            <tr>
+                <td>Файл конфигурации</td>
+                <td>{{ 'Загружен' if device.config_file_path else 'Не загружен'}}</td>
+            </tr>
+        </table>
+        <div class="d-flex">
+            <button class="btn btn-primary me-2" onClick="downloadDeviceConfig({{device.id}})">Скачать файл конфига</button>
+            <button class="btn btn-danger" onClick="deleteDevice(event, {{device.id}})">Удалить устройство</button>
+        </div>
+    </div>
+    <div class="card card-body">
+        <h5>Обновить файл конфигурации</h5>
+        <form onSubmit="updateDeviceConfig(event, {{device.id}})">
+            <div class="mb-3">
+                <label for="config_file" class="form-label">Файл конфигурации</label>
+                <input type="file" class="form-control" name="config_file" id="config_file" accept="text/plain">
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Обновить</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="card card-body my-2">
+    <h5>Текущий файл конфигурации</h5>
+    <table>
+        <thead>
+            <tr style="background: lightgrey" class="fw-medium">
+                <td>#</td>
+                <td>Содержимое</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for line in config %}
+            <tr>
+                <td style="background: lightgrey; border-right: 1px solid black; text-align: right; width: 40px;">{{loop.index}}</td>
+                <td style="padding-left: 10px;">{{line}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

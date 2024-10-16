@@ -1,0 +1,4 @@
+#modalSignup, #modalSignin {
+    display: none;
+    --bs-bg-opacity: 0.6;
+}

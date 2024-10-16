@@ -1,0 +1,30 @@
+{% import 'base/macro.html' as macro %}
+{% extends "base/base.html" %}
+{% block header %}
+{{ macro.logged_header(username=user['email']) }}
+{% endblock %}
+
+{% block content %}
+{% if diff %}
+{{ diff|safe }}
+{% elif devices %}
+<div class="card card-body d-flex align-items-center">
+    <form onSubmit="compareConfigs(event)" class="d-flex flex-column">
+        <h5 class="card-title">Выберите устройства для сравнения</h5>
+        <select class="form-select mb-3" name="device1_id">
+            {% for device in devices %}
+            <option value="{{device.id}}">{{device.name}}</option>
+            {% endfor %}
+        </select>
+        <select class="form-select mb-3" name="device2_id">
+            {% for device in devices %}
+            <option value="{{device.id}}">{{device.name}}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-primary mb-3">Сравнить</button>
+    </form>
+</div>
+
+{% endif %}
+
+{% endblock %}
